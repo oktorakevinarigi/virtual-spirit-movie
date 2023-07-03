@@ -4,12 +4,17 @@ import {
 } from '@tanstack/react-query'
 
 import { FetcherArgs, cleanQuery, FetchError, fetchBrowser, queryToString } from '@/utils'
-import { MovieListResponse } from './movie-model'
+import { MovieListResponse, MovieDetailResponse } from './movie-model'
 
 type MovieQuery = {
   language: string
   page: string
   region: string
+}
+type MovieDetailQuery = {
+  movie_id: string
+  append_to_response: string
+  language: string
 }
 export const MoviePlayingKeys = {
   all: ['MOVIE_PLAYING'],
@@ -30,6 +35,14 @@ export const MovieUpcomingKeys = {
   all: ['MOVIE_UPCOMING'],
   lists: () => [...MovieUpcomingKeys.all, 'LISTS'],
   list: (query: MovieQuery) => [...MovieUpcomingKeys.lists(), cleanQuery(query)],
+}
+export const MovieKeys = {
+  all: ['MOVIE'],
+  lists: () => [...MovieKeys.all, 'LISTS'],
+  list: (query: MovieQuery) => [...MovieKeys.lists(), cleanQuery(query)],
+  details: () => [...MovieKeys.all, 'DETAIL'],
+  detail: (query: MovieDetailQuery) => [...MovieKeys.details(), cleanQuery(query)],
+
 }
 
 export const getMoviePlaying = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
@@ -104,6 +117,26 @@ export function useGetMovieUpcoming<TData = MovieUpcomingCache>(
     () => {
       const fetch = fetchBrowser()
       return getMovieUpcoming({ fetch, query })
+    },
+    options
+  )
+}
+
+export const getMovieDetail = async ({ fetch, query }: FetcherArgs<MovieDetailQuery>) => {
+  const {movie_id, ...rest} = query
+  const data = await fetch.get<MovieDetailResponse>(`https://api.themoviedb.org/3/movie/${movie_id}${queryToString(rest)}`)
+  return data
+}
+export type MovieDetailCache = Awaited<ReturnType<typeof getMovieDetail>>
+export function useGetMovieDetail<TData = MovieDetailCache>(
+  query: MovieDetailQuery,
+  options?: UseQueryOptions<MovieDetailCache, FetchError, TData>
+) {
+  return useQuery<MovieDetailCache, FetchError, TData>(
+    MovieKeys.detail(query),
+    () => {
+      const fetch = fetchBrowser()
+      return getMovieDetail({ fetch, query })
     },
     options
   )

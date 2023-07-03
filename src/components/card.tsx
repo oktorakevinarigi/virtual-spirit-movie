@@ -1,15 +1,17 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 type CardProps = {
   poster_path: string
   vote_average: number
   title: string
   release_date: string
+  id: number
 }
 
 export function Card(props: CardProps) {
   return (
-    <div className='relative cursor-pointer'>
+    <Link href={`/movie/${props.id}`} className='relative cursor-pointer'>
       <Image
         width={195}
         height={287}
@@ -34,6 +36,6 @@ export function Card(props: CardProps) {
         <div className='text-white'>{props.title}</div>
         <div className='text-white'>{props.release_date}</div>
       </div>
-    </div>
+    </Link>
   )
 }
