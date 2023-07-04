@@ -4,7 +4,7 @@ import {
 } from '@tanstack/react-query'
 
 import { FetcherArgs, cleanQuery, FetchError, fetchBrowser, queryToString } from '@/utils'
-import { MovieListResponse, MovieDetailResponse } from './movie-model'
+import { MovieListResponse, MovieDetailResponse, MovieSearchResponse } from './movie-model'
 
 type MovieQuery = {
   language: string
@@ -15,6 +15,15 @@ type MovieDetailQuery = {
   movie_id: string
   append_to_response: string
   language: string
+}
+type MovieSearchQuery = {
+  query: string
+  include_adult: boolean
+  language: string
+  primary_release_year: string
+  page: string
+  region: string
+  year: string
 }
 export const MoviePlayingKeys = {
   all: ['MOVIE_PLAYING'],
@@ -42,7 +51,8 @@ export const MovieKeys = {
   list: (query: MovieQuery) => [...MovieKeys.lists(), cleanQuery(query)],
   details: () => [...MovieKeys.all, 'DETAIL'],
   detail: (query: MovieDetailQuery) => [...MovieKeys.details(), cleanQuery(query)],
-
+  searchs: () => [...MovieKeys.all, 'DETAIL'],
+  search: (query: MovieSearchQuery) => [...MovieKeys.searchs(), cleanQuery(query)],
 }
 
 export const getMoviePlaying = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
@@ -137,6 +147,25 @@ export function useGetMovieDetail<TData = MovieDetailCache>(
     () => {
       const fetch = fetchBrowser()
       return getMovieDetail({ fetch, query })
+    },
+    options
+  )
+}
+
+export const getMovieSearch = async ({ fetch, query }: FetcherArgs<MovieSearchQuery>) => {
+  const data = await fetch.get<MovieSearchResponse>(`https://api.themoviedb.org/3/search/movie${queryToString(query)}`)
+  return data
+}
+export type MovieSearchCache = Awaited<ReturnType<typeof getMovieSearch>>
+export function useGetMovieSearch<TData = MovieSearchCache>(
+  query: MovieSearchQuery,
+  options?: UseQueryOptions<MovieSearchCache, FetchError, TData>
+) {
+  return useQuery<MovieSearchCache, FetchError, TData>(
+    MovieKeys.search(query),
+    () => {
+      const fetch = fetchBrowser()
+      return getMovieSearch({ fetch, query })
     },
     options
   )

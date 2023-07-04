@@ -2,7 +2,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query'
 import type { GetServerSidePropsContext } from 'next'
 
 import { fetchNode, nullify } from '@/utils'
-import { Card } from '../components'
+import { Card, Header } from '../components'
 import {
   MoviePlayingKeys,
   useGetMoviePlaying,
@@ -26,12 +26,7 @@ export default function Home() {
   const getMovieUpcoming = useGetMovieUpcoming(query)
   return (
     <div>
-      <header className='flex container mx-auto'>
-        <div className='w-10 text-xl font-normal'>The Movie Tracker</div>
-        <div className='w-full flex justify-center items-center'>
-          <input type='text' placeholder='Search a movie or a series' className='h-10 border rounded-full px-5 focus:border-blue-500 outline-none bg-[#D9D9D9] w-[630px] text-center' />
-        </div>
-      </header>
+      <Header />
 
       <main className='container mx-auto mt-10'>
         <div className='text-base font-medium my-5'>Now Playing</div>

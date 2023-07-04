@@ -19,6 +19,7 @@ export function Card(props: CardProps) {
         alt={props.title}
         className='rounded-2xl'
         style={{objectFit: 'cover', height:'100%'}}
+        priority
       />
       <div className='absolute top-3 left-3 flex items-center gap-1'>
         <div>

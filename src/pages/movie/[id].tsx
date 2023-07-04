@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 import {fetchNode, nullify} from '@/utils'
 import { useGetMovieDetail, MovieKeys, getMovieDetail } from '@/components/movie-queries'
+import {Header} from '@/components'
 
 export default function Home(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -13,12 +14,7 @@ export default function Home(
   const getMovieDetail = useGetMovieDetail({ movie_id: id, language: 'en-US', append_to_response: '' })
   return (
     <div>
-      <header className='flex container mx-auto'>
-        <div className='w-10 text-xl font-normal'>The Movie Tracker</div>
-        <div className='w-full flex justify-center items-center'>
-          <input type='text' placeholder='Search a movie or a series' className='h-10 border rounded-full px-5 focus:border-blue-500 outline-none bg-[#D9D9D9] w-[630px] text-center' />
-        </div>
-      </header>
+      <Header />
 
       <main className='container mx-auto mt-10'>
         <div className='flex flex-col gap-5'>
@@ -35,6 +31,7 @@ export default function Home(
                 alt={getMovieDetail.data?.title || ''}
                 className='rounded-2xl'
                 style={{ objectFit: 'cover', height: '100%' }}
+                priority
               />
               <div className='flex flex-col justify-between w-1/2'>
                 <div>
