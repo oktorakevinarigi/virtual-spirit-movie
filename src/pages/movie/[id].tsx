@@ -3,9 +3,10 @@ import { QueryClient, dehydrate } from '@tanstack/react-query'
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 
-import {fetchNode, nullify} from '@/utils'
+import { ULR_IMAGE } from '@/constants'
+import { fetchNode, nullify } from '@/utils'
 import { useGetMovieDetail, MovieKeys, getMovieDetail } from '@/components/movie-queries'
-import {Header} from '@/components'
+import { Header } from '@/components'
 
 export default function Home(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -16,24 +17,24 @@ export default function Home(
     <div>
       <Header />
 
-      <main className='container mx-auto mt-10'>
+      <main className='container mx-auto mt-10 px-5 sm:px-0'>
         <div className='flex flex-col gap-5'>
           <div className='text-4xl font-bold'>
             {getMovieDetail.data?.title}
           </div>
 
           <div className='flex'>
-            <div className='flex gap-5'>
+            <div className='flex gap-5 flex-col sm:flex-row items-center'>
               <Image
                 width={195}
                 height={287}
-                src={`https://image.tmdb.org/t/p/w500/${getMovieDetail.data?.poster_path}`}
+                src={`${ULR_IMAGE}/${getMovieDetail.data?.poster_path}`}
                 alt={getMovieDetail.data?.title || ''}
                 className='rounded-2xl'
                 style={{ objectFit: 'cover', height: '100%' }}
                 priority
               />
-              <div className='flex flex-col justify-between w-1/2'>
+              <div className='flex flex-col justify-between w-full md:w-1/2'>
                 <div>
                   <div className='flex gap-5 mb-2 flex-wrap'>
                     {getMovieDetail.data?.genres.map(item => (
@@ -62,11 +63,11 @@ export default function Home(
             </div>
 
             {getMovieDetail.data?.belongs_to_collection?.poster_path && (
-              <div className='w-full'>
+              <div className='w-full hidden lg:block'>
                 <Image
                   width={195}
                   height={287}
-                  src={`https://image.tmdb.org/t/p/w500/${getMovieDetail.data?.belongs_to_collection.poster_path}`}
+                  src={`${ULR_IMAGE}/${getMovieDetail.data?.belongs_to_collection.poster_path}`}
                   alt={getMovieDetail.data?.title || ''}
                   className='rounded-2xl'
                   style={{ objectFit: 'cover', height: '100%' }}
@@ -85,7 +86,7 @@ export default function Home(
                   <Image
                     width={100}
                     height={100}
-                    src={`https://image.tmdb.org/t/p/w500/${item.logo_path}`}
+                    src={`${ULR_IMAGE}/${item.logo_path}`}
                     alt={item.name || ''}
                     style={{ objectFit: 'contain', height: '100%' }}
                   />
@@ -108,7 +109,7 @@ export const getServerSideProps = async ({ req, params }: GetServerSidePropsCont
   if (params && params.id) {
     const queryDetail = { movie_id: params.id as string, language: 'en-US', append_to_response: '' }
     await queryClient.prefetchQuery(MovieKeys.detail(queryDetail), () =>
-    getMovieDetail({ fetch, query: queryDetail })
+      getMovieDetail({ fetch, query: queryDetail })
     )
   }
 

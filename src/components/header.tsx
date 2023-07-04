@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ULR_IMAGE } from '@/constants'
 import { useDebounce } from '@/utils'
 import { useGetMovieSearch } from './movie-queries'
 
@@ -52,68 +53,72 @@ export function Header() {
 
   return (
     <>
-      <header className='flex container mx-auto'>
-        <Link href={'/'} className='w-10 text-xl font-normal'>The Movie Tracker</Link>
-        <div className='w-full flex justify-center items-center relative'>
-          <input
-            id="container"
-            ref={boxListRef}
-            type='text'
-            placeholder='Search a movie'
-            className='h-10 border rounded-full px-5 focus:border-blue-500 outline-none bg-[#D9D9D9] w-[630px]'
-            onChange={(e) => onChangeSearch(e.target.value)}
-            onClick={() => setIsList(true)}
-            value={search}
-          />
+      <header className='flex container mx-auto h-24'>
+        <Link href={'/'} className='hidden sm:block w-10 text-xl font-normal'>The Movie Tracker</Link>
+        <div className='w-full flex justify-center items-center'>
+          <div className='relative'>
+            <input
+              id="container"
+              ref={boxListRef}
+              type='text'
+              placeholder='Search a movie'
+              className='h-10 border rounded-full px-5 focus:border-blue-500 outline-none bg-[#D9D9D9] md:w-[630px] sm:w-[300px]'
+              onChange={(e) => onChangeSearch(e.target.value)}
+              onClick={() => setIsList(true)}
+              value={search}
+            />
 
-          {isList && (
-            <div className="absolute z-10 top-16" aria-labelledby="modal-title">
-              <div className="bg-gray-500 bg-opacity-75 transition-opacity"></div>
-              <div className="inset-0 z-10">
-                <div className="flex items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                  <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:w-[630px] max-h-[300px] overflow-y-auto">
-                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 space-y-2">
-                      {getMovieSearch.isFetching ? <Loading /> : getMovieSearch.data?.results.length ? getMovieSearch.data?.results.map(item => {
-                        if (item.poster_path) {
-                          return (
-                            <Link
-                              key={item.id}
-                              href={`/movie/${item.id}`}
-                              tabIndex={0}
-                              className='flex justify-between cursor-pointer hover:bg-blue-50 p-2'
-                            >
-                              <div className='flex space-x-2'>
-                                <Image
-                                  width={50}
-                                  height={72}
-                                  src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                                  alt={'sd'}
-                                  style={{ objectFit: 'cover' }}
-                                  priority
-                                />
-                                <div className='flex flex-col justify-between'>
-                                  <p className='text-slate-900 line-clamp-1 text-base'>
-                                    {item.title}
-                                  </p>
-                                  <p className='text-sm text-slate-600'>
-                                    {item.release_date}
-                                  </p>
+            {isList && (
+              <div className="absolute z-10 left-0 top-11" aria-labelledby="modal-title">
+                <div className="bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div className="inset-0 z-10">
+                  <div className="flex items-end justify-center text-center sm:items-center">
+                    <div className="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all md:w-[630px] w-[223px] max-h-[300px] overflow-y-auto">
+                      <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 space-y-2">
+                        {getMovieSearch.isFetching ? <Loading /> : getMovieSearch.data?.results.length ? getMovieSearch.data?.results.map(item => {
+                          if (item.poster_path) {
+                            return (
+                              <Link
+                                key={item.id}
+                                href={`/movie/${item.id}`}
+                                tabIndex={0}
+                                className='flex justify-between cursor-pointer hover:bg-blue-50 p-2'
+                              >
+                                <div className='flex space-x-2'>
+                                  <Image
+                                    width={50}
+                                    height={72}
+                                    src={`${ULR_IMAGE}/${item.poster_path}`}
+                                    alt={'sd'}
+                                    style={{ objectFit: 'cover' }}
+                                    priority
+                                  />
+                                  <div className='flex flex-col justify-between'>
+                                    <p className='text-slate-900 line-clamp-1 text-base'>
+                                      {item.title}
+                                    </p>
+                                    <p className='text-sm text-slate-600'>
+                                      {item.release_date}
+                                    </p>
+                                  </div>
                                 </div>
-                              </div>
-                            </Link>
-                          )
-                        }
-                      }) : (
-                        <div className='h-20 flex justify-center items-center text-slate-600 dark:text-slate-400'>
-                          No results found
-                        </div>
-                      )}
+                              </Link>
+                            )
+                          }
+                        }) : (
+                          <div className='h-20 flex justify-center items-center text-slate-600 dark:text-slate-400'>
+                            No results found
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+
 
 
 

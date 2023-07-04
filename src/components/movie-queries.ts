@@ -3,6 +3,7 @@ import {
   type UseQueryOptions,
 } from '@tanstack/react-query'
 
+import {URL_API} from '@/constants'
 import { FetcherArgs, cleanQuery, FetchError, fetchBrowser, queryToString } from '@/utils'
 import { MovieListResponse, MovieDetailResponse, MovieSearchResponse } from './movie-model'
 
@@ -56,7 +57,7 @@ export const MovieKeys = {
 }
 
 export const getMoviePlaying = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
-  const data = await fetch.get<MovieListResponse>(`https://api.themoviedb.org/3/movie/now_playing${queryToString(query)}`)
+  const data = await fetch.get<MovieListResponse>(`${URL_API}/3/movie/now_playing${queryToString(query)}`)
   return data
 }
 export type MoviePlayingCache = Awaited<ReturnType<typeof getMoviePlaying>>
@@ -76,7 +77,7 @@ export function useGetMoviePlaying<TData = MoviePlayingCache>(
 
 
 export const getMoviePopular = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
-  const data = await fetch.get<MovieListResponse>(`https://api.themoviedb.org/3/movie/popular${queryToString(query)}`)
+  const data = await fetch.get<MovieListResponse>(`${URL_API}/3/movie/popular${queryToString(query)}`)
   return data
 }
 export type MoviePopularCache = Awaited<ReturnType<typeof getMoviePopular>>
@@ -95,7 +96,7 @@ export function useGetMoviePopular<TData = MoviePopularCache>(
 }
 
 export const getMovieTopRated = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
-  const data = await fetch.get<MovieListResponse>(`https://api.themoviedb.org/3/movie/top_rated${queryToString(query)}`)
+  const data = await fetch.get<MovieListResponse>(`${URL_API}/3/movie/top_rated${queryToString(query)}`)
   return data
 }
 export type MovieTopRatedCache = Awaited<ReturnType<typeof getMovieTopRated>>
@@ -114,7 +115,7 @@ export function useGetMovieTopRated<TData = MovieTopRatedCache>(
 }
 
 export const getMovieUpcoming = async ({ fetch, query }: FetcherArgs<MovieQuery>) => {
-  const data = await fetch.get<MovieListResponse>(`https://api.themoviedb.org/3/movie/upcoming${queryToString(query)}`)
+  const data = await fetch.get<MovieListResponse>(`${URL_API}/3/movie/upcoming${queryToString(query)}`)
   return data
 }
 export type MovieUpcomingCache = Awaited<ReturnType<typeof getMovieUpcoming>>
@@ -134,7 +135,7 @@ export function useGetMovieUpcoming<TData = MovieUpcomingCache>(
 
 export const getMovieDetail = async ({ fetch, query }: FetcherArgs<MovieDetailQuery>) => {
   const {movie_id, ...rest} = query
-  const data = await fetch.get<MovieDetailResponse>(`https://api.themoviedb.org/3/movie/${movie_id}${queryToString(rest)}`)
+  const data = await fetch.get<MovieDetailResponse>(`${URL_API}/3/movie/${movie_id}${queryToString(rest)}`)
   return data
 }
 export type MovieDetailCache = Awaited<ReturnType<typeof getMovieDetail>>
@@ -153,7 +154,7 @@ export function useGetMovieDetail<TData = MovieDetailCache>(
 }
 
 export const getMovieSearch = async ({ fetch, query }: FetcherArgs<MovieSearchQuery>) => {
-  const data = await fetch.get<MovieSearchResponse>(`https://api.themoviedb.org/3/search/movie${queryToString(query)}`)
+  const data = await fetch.get<MovieSearchResponse>(`${URL_API}/3/search/movie${queryToString(query)}`)
   return data
 }
 export type MovieSearchCache = Awaited<ReturnType<typeof getMovieSearch>>

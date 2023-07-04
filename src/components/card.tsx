@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ULR_IMAGE } from '@/constants'
+
 type CardProps = {
   poster_path: string
   vote_average: number
@@ -15,12 +17,13 @@ export function Card(props: CardProps) {
       <Image
         width={195}
         height={287}
-        src={`https://image.tmdb.org/t/p/w500/${props.poster_path}`}
+        src={`${ULR_IMAGE}/${props.poster_path}`}
         alt={props.title}
         className='rounded-2xl'
-        style={{objectFit: 'cover', height:'100%'}}
+        style={{ objectFit: 'cover', height: '287px', width: '195px' }}
         priority
       />
+
       <div className='absolute top-3 left-3 flex items-center gap-1'>
         <div>
           <Image

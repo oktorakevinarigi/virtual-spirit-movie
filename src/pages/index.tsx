@@ -28,30 +28,30 @@ export default function Home() {
     <div>
       <Header />
 
-      <main className='container mx-auto mt-10'>
+      <main className='container mx-auto mt-10 px-5 sm:px-0'>
         <div className='text-base font-medium my-5'>Now Playing</div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMoviePlaying.data?.results.slice(0, 12).map(item => (
             <Card key={item.id} {...item} />
           ))}
         </div>
 
         <div className='text-base font-medium my-5'>Now Popular</div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMoviePopular.data?.results.slice(0, 12).map(item => (
             <Card key={item.id} {...item} />
           ))}
         </div>
 
         <div className='text-base font-medium my-5'>Top Rated</div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMovieTopRated.data?.results.slice(0, 12).map(item => (
             <Card key={item.id} {...item} />
           ))}
         </div>
 
         <div className='text-base font-medium my-5'>Upcoming</div>
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMovieUpcoming.data?.results.slice(0, 12).map(item => (
             <Card key={item.id} {...item} />
           ))}
