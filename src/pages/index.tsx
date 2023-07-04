@@ -29,6 +29,8 @@ export default function Home() {
       <Header />
 
       <main className='container mx-auto mt-10 px-5 sm:px-0'>
+
+        {/* Now Playing */}
         <div className='text-base font-medium my-5'>Now Playing</div>
         <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMoviePlaying.data?.results.slice(0, 12).map(item => (
@@ -36,6 +38,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Now Popular */}
         <div className='text-base font-medium my-5'>Now Popular</div>
         <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMoviePopular.data?.results.slice(0, 12).map(item => (
@@ -43,6 +46,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Top Rated */}
         <div className='text-base font-medium my-5'>Top Rated</div>
         <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMovieTopRated.data?.results.slice(0, 12).map(item => (
@@ -50,6 +54,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Upcoming */}
         <div className='text-base font-medium my-5'>Upcoming</div>
         <div className='flex flex-wrap gap-4 justify-center sm:justify-start'>
           {getMovieUpcoming.data?.results.slice(0, 12).map(item => (

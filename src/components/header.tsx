@@ -68,6 +68,7 @@ export function Header() {
               value={search}
             />
 
+            {/* List Search */}
             {isList && (
               <div className="absolute z-10 left-0 top-11" aria-labelledby="modal-title">
                 <div className="bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -116,21 +117,11 @@ export function Header() {
                 </div>
               </div>
             )}
+
+
           </div>
-
-
-
-
-
-
         </div>
-
-
       </header>
-
-
-
-
     </>
   )
 }

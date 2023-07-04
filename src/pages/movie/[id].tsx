@@ -13,6 +13,7 @@ export default function Home(
 ) {
   const { id } = props
   const getMovieDetail = useGetMovieDetail({ movie_id: id, language: 'en-US', append_to_response: '' })
+
   return (
     <div>
       <Header />
@@ -23,6 +24,7 @@ export default function Home(
             {getMovieDetail.data?.title}
           </div>
 
+          {/* Content */}
           <div className='flex'>
             <div className='flex gap-5 flex-col sm:flex-row items-center'>
               <Image
@@ -77,6 +79,7 @@ export default function Home(
           </div>
         </div>
 
+        {/* Production Companies */}
         <div className='font-bold mt-10 mb-5'>Production Companies</div>
         <div className='flex gap-3 flex-wrap'>
           {getMovieDetail.data?.production_companies.map(item => {
